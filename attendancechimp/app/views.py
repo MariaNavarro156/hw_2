@@ -40,17 +40,12 @@ def time_view(request):
 
 def sum_view(request):
     """Return the sum of two query parameters in JSON format"""
-    n1 = _to_number(request.GET.get('n1'))
-    n2 = _to_number(request.GET.get('n2'))
+    n1 = float(request.GET.get('n1'))
+    n2 = float(request.GET.get('n2'))
     return JsonResponse({'sum': n1 + n2})
 
 
-def _to_number(s):
-    """Convert a string to int if possible, otherwise float."""
-    try:
-        return int(s)
-    except ValueError:
-        return float(s)
+
 
 
 # ---------------------------------------------------------------------------
