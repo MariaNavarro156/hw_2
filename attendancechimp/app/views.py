@@ -33,6 +33,17 @@ def index(request):
     context = {}
     return render(request, 'app/index.html', context)
 
+def time_view(request):
+    """Return the current time in plain text; format HH:MM"""
+    now = datetime.now(CDT)
+    return HttpResponse(now.strftime("%H:%M"))
+
+def sum_view(request):
+    """Return the sum of two query parameters in JSON format"""
+    n1 = request.GET.get('n1')
+    n2 = request.GET.get('n2')
+    total = int(n1) + int(n2)
+    return JsonResponse({'sum': total})
 
 
 # ---------------------------------------------------------------------------
