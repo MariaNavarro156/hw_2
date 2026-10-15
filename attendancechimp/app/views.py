@@ -42,7 +42,8 @@ def sum_view(request):
     """Return the sum of two query parameters in JSON format"""
     n1 = float(request.GET.get('n1'))
     n2 = float(request.GET.get('n2'))
-    return JsonResponse({'sum': n1 + n2})
+    total = round(n1 + n2, 10)
+    return JsonResponse({'sum': total})
 
 
 
