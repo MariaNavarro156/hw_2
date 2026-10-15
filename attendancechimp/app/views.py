@@ -40,9 +40,9 @@ def time_view(request):
 
 def sum_view(request):
     """Return the sum of two query parameters in JSON format"""
-    n1 = request.GET.get('n1')
-    n2 = request.GET.get('n2')
-    total = int(n1) + int(n2)
+    n1 = float(request.GET.get('n1'))
+    n2 = float(request.GET.get('n2'))
+    total = n1 + n2
     return JsonResponse({'sum': total})
 
 
