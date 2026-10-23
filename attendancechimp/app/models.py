@@ -99,6 +99,7 @@ class QRCodeUpload(models.Model):
     """QRCodeUpload represents a student's uploaded QR code photograph."""
     student = models.ForeignKey(StudentProfile, on_delete=models.CASCADE)
     lecture = models.ForeignKey(Lecture, on_delete=models.CASCADE)
+    photo = models.ImageField(upload_to="qr_uploads/")
     timestamp = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

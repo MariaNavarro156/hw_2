@@ -1,7 +1,0 @@
-ChatGPT generated a much more detailed and robust version of models.py. My version didn't have any helper functions
-because I wasn't sure if we should import any packages or just use what was already there. I didn't give
-ChatGPT the code that we started with so it imported the things it wanted, like settings and timezone, to 
-help with helper functions. Mine is simpler, chat gave each class related names and help text. Chat's is
-much more complete, it includes a photo upload which I should probably add, it just wasn't listed in 
-the instructions as a field we should use. Mine is probably easier to implement because there is so much
-less going on in it.
