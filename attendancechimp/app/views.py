@@ -70,7 +70,7 @@ def new(request):
 def create_user(request):
     """Create a new user account based on form submissions."""
     email = request.POST.get('email')
-    user_name = request.POST.get('username')
+    user_name = request.POST.get('user_name')
     password = request.POST.get('password')
     is_student = request.POST.get('is_student') == '1'
 
