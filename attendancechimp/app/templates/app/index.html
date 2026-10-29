@@ -12,8 +12,20 @@
 <body>
 <div class="bio">
     <h1>AttendanceChimp</h1>
-    <p>Electronic class attendance tracking application.</p>
+    <p>Electronic class attendance tracking application. Upload QR code images to recorrd attendance.</p>
+    <p> 
+        <b>{{ name }}</b>
+    </p>
+    <p> Current Time: {{ current_time }}</p>
     <hr>
+    {% if user.is_authenticated %}
+    <form action="{% url 'logout' %}" method="post">
+        {% csrf_token %}
+        <button type="submit">Log Out</button>
+    </form>
+    {% else %}
+        <a href="{% url 'login' %}">Log In</a>
+        {% endif %}
 
 </div>
 </body>

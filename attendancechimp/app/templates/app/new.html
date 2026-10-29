@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sign Up</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin: 40px; }
+        .bio { max-width: 600px; margin: 0 auto; }
+        .username { font-weight: bold; font-size: 1.2em; }
+    </style>
+</head>
+<body>
+    <form action="/app/createUser" method = post> 
+        {% csrf_token %}
+        
+        <label>Username:</label>
+        <input type = "text" name = "username"><br>
+        <label>Email:</label>
+        <input type = "email" name = "email"><br>
+        <label>Password:</label>
+        <input type = "password" name = "password"><br>
+        <input type = "radio" name = "is_student" value = "1" checked> Student
+        <input type = "radio" name = "is_student" value = "0"> Instructor<br>
+        <button type = "submit">Sign Up</button>
+
+    </form>
+</body>
+</html>

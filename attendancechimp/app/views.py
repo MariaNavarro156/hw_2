@@ -7,7 +7,7 @@ interact with the database via models.py, and return an HTTP response.
 
 from django.shortcuts import render, redirect
 from django.http import (HttpResponse, HttpResponseForbidden,
-                         HttpResponseBadRequest, JsonResponse)
+                         HttpResponseBadRequest, JsonResponse, request)
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
@@ -15,6 +15,9 @@ from datetime import datetime
 import zoneinfo
 import json
 import io
+from django.views.decorators.http import require_GET, require_POST
+from .models import StudentProfile, InstructorProfile, is_student
+
 
 # from .models import (InstructorProfile, StudentProfile, Course, Enrollment,
 #                      Lecture, QRCodeUpload, is_instructor, is_student,
@@ -29,14 +32,17 @@ CDT = zoneinfo.ZoneInfo("America/Chicago")
 
 def index(request):
     """Render the home page (index.html)."""
-
-    context = {}
+    if request.user.is_authenticated:
+        name = request.user.get_full_name()
+    else:
+        name = "Not logged in"
+    context = { "current_time": datetime.now(CDT).strftime("%H:%M"), "name": name }
     return render(request, 'app/index.html', context)
 
 def time_view(request):
     """Return the current time in plain text; format HH:MM"""
     now = datetime.now(CDT)
-    return HttpResponse(now.strftime("%H:%M"))
+    return HttpResponse(now.strftime("%H:%M"), content_type="text/plain")
 
 def sum_view(request):
     """Return the sum of two query parameters in JSON format"""
@@ -49,11 +55,38 @@ def sum_view(request):
 
 
 
+
 # ---------------------------------------------------------------------------
 # HW4  — user creation
 # ---------------------------------------------------------------------------
 
+@require_GET
+def new(request):
+    """Display the signup form for new users."""""
+    return render(request, 'app/new.html', {})
 
+@csrf_exempt
+@require_POST
+def create_user(request):
+    """Create a new user account based on form submissions."""
+    email = request.POST.get('email')
+    user_name = request.POST.get('username')
+    password = request.POST.get('password')
+    is_student = request.POST.get('is_student') == '1'
+
+    if User.objects.filter(email__iexact=email).exists():
+        return HttpResponse("Email already registered.", status=400)
+
+    user = User.objects.create_user(username=user_name, email=email, password=password)
+
+    if is_student:
+        StudentProfile.objects.create(user=user, first_name="", last_name="")
+    else:
+        InstructorProfile.objects.create(user=user, first_name="", last_name="")
+
+    login(request, user)
+    return HttpResponse("Account created successfully!", status=200)
+    
 
 # ---------------------------------------------------------------------------
 # HW5  — courses, lectures, QR uploads, dump
