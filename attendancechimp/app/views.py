@@ -33,7 +33,7 @@ CDT = zoneinfo.ZoneInfo("America/Chicago")
 def index(request):
     """Render the home page (index.html)."""
     if request.user.is_authenticated:
-        name = request.user.get_full_name()
+        name = request.user.get_username()
     else:
         name = "Not logged in"
     context = { "current_time": datetime.now(CDT).strftime("%H:%M"), "name": name }
